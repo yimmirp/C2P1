@@ -24,7 +24,7 @@ import java.util.LinkedList;
 %unicode
 
 //------> Expresiones Regulares
-numero = [0-9]+
+dir = [0-9]+
 
 //------> Estados
 
@@ -33,15 +33,22 @@ numero = [0-9]+
 
 //-----> Simbolos
 
-<YYINITIAL> "+"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mas, yycolumn, yyline, yytext()); }
-<YYINITIAL> "-"         { System.out.println("Reconocio "+yytext()+" menos"); return new Symbol(Simbolos.menos, yycolumn, yyline, yytext()); }
-<YYINITIAL> "*"         { System.out.println("Reconocio "+yytext()+" por"); return new Symbol(Simbolos.por, yycolumn, yyline, yytext()); }
-<YYINITIAL> "/"         { System.out.println("Reconocio "+yytext()+" div"); return new Symbol(Simbolos.div, yycolumn, yyline, yytext()); }
-<YYINITIAL> "("         { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(Simbolos.para, yycolumn, yyline, yytext()); }
-<YYINITIAL> ")"         { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(Simbolos.parc, yycolumn, yyline, yytext()); }
-
+<YYINITIAL> "<CHTML>"         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.ha, yycolumn, yyline, yytext()); }
+<YYINITIAL> "<FIN-CHTML>"     { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.hc, yycolumn, yyline, yytext()); }
+<YYINITIAL> "<ENCABEZADO>"    { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.ena, yycolumn, yyline, yytext()); }
+<YYINITIAL> "<FIN-ENCABEZADO>" { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.enc, yycolumn, yyline, yytext()); }
+<YYINITIAL> "<"         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.abre, yycolumn, yyline, yytext()); }
+<YYINITIAL> ">"         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.cierra, yycolumn, yyline, yytext()); }
+<YYINITIAL> "CJS"         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.cjs, yycolumn, yyline, yytext()); }
+<YYINITIAL> "CCSS"         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.ccss, yycolumn, yyline, yytext()); }
+<YYINITIAL> "ruta"         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.ruta, yycolumn, yyline, yytext()); }
+<YYINITIAL> "="         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.igual, yycolumn, yyline, yytext()); }
+<YYINITIAL> '\"'         {System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.comilla, yycolumn, yyline,yytext());}
+<YYINITIAL> "<FIN-CJS>" { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.fcjs, yycolumn, yyline, yytext());}
+<YYINITIAL> "<FIN-CCSS>" { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.fccss, yycolumn, yyline, yytext());}
+<YYINITIAL> ";" { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.pc, yycolumn, yyline, yytext());}
 //-------> Simbolos ER
-<YYINITIAL> {numero}    { System.out.println("Reconocio "+yytext()+" num"); return new Symbol(Simbolos.num, yycolumn, yyline, yytext()); }
+<YYINITIAL> {dir}    { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.dir, yycolumn, yyline, yytext()); }
 
 //------> Espacios
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}

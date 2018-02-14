@@ -53,36 +53,22 @@ action code
 
 /*--------------- 2da Area: Declaraciones -----------------------*/
 //------> declaracion de terminales 
-terminal mas,menos,por,div,para,parc;
-terminal String num;
+terminal ha,hc,ena,enc,abre,cierra,cjs,ccss,ruta,igual,comilla,fcjs,fccss,pc;
+terminal String dir;
 
 //------> declaracion de no terminales
-non terminal String INICIO,E;
-
-//----> precedencia de menor a mayor 
-precedence left mas, menos;
-precedence left por, div;
+non terminal String INICIO,HTML,EN,EX;
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
-INICIO::=E:a {: resultado=a; :};
+INICIO::=HTML;
 
-E::= E:a mas E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1+val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a menos E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1-val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a div E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1/val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a por E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1*val2;
-                    RESULT = String.valueOf(r); :}
-    |para E:a {: RESULT = a; :} parc
-    |num:a {: RESULT = a; :};
+HTML::= ha ena EN enc hc;
+/*ENCABEZADO*/
+EN::= EN EX
+    |EX;
+
+EX::= abre cjs ruta igual comilla comilla pc cierra fcjs
+    |abre ccss ruta igual comilla comilla pc cierra fccss;
+/*-------------CUERPO*/

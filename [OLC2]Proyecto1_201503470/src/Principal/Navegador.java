@@ -8,8 +8,15 @@ package Principal;
 import Analizadores.Analizador_Lexico;
 import Analizadores.analisis_sintactico;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -36,7 +43,7 @@ public class Navegador extends javax.swing.JFrame {
 
         Nuevo = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        url = new javax.swing.JTextField();
         btnInspector = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
@@ -53,7 +60,7 @@ public class Navegador extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        areaT = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("USAC-WEB");
@@ -72,7 +79,13 @@ public class Navegador extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 830, 33));
+
+        url.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                urlKeyPressed(evt);
+            }
+        });
+        jPanel2.add(url, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 830, 33));
 
         btnInspector.setText("Inspeccionar");
         btnInspector.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +148,7 @@ public class Navegador extends javax.swing.JFrame {
 
         a.setViewportView(jPanel4);
 
-        jPanel2.add(a, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1350, 550));
+        jPanel2.add(a, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1350, 310));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 153));
 
@@ -149,9 +162,9 @@ public class Navegador extends javax.swing.JFrame {
 
         jButton2.setText("jButton2");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        areaT.setColumns(20);
+        areaT.setRows(5);
+        jScrollPane1.setViewportView(areaT);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -238,6 +251,42 @@ public class Navegador extends javax.swing.JFrame {
         Nuevo.setSelectedIndex(contPestaña);
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    private void urlKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_urlKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            File archivo = new File(url.getText());
+            
+            try {
+                BufferedReader leer = new BufferedReader(new FileReader(archivo));
+                String linea = leer.readLine();
+                while(linea != null){
+                    areaT.append(linea+"\n");
+                    linea = leer.readLine();
+                }
+                
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Navegador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Navegador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        String datos = areaT.getText();
+        Analizador_Lexico lexico = new Analizador_Lexico(new BufferedReader(new StringReader(datos)));
+        analisis_sintactico sintactico = new analisis_sintactico(lexico);
+        
+        try {
+            sintactico.parse();
+            System.out.println(sintactico.resultado);
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+    }//GEN-LAST:event_urlKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -278,6 +327,7 @@ public class Navegador extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane Nuevo;
     private javax.swing.JScrollPane a;
+    private javax.swing.JTextArea areaT;
     private javax.swing.JButton btnInspector;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -294,7 +344,6 @@ public class Navegador extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField url;
     // End of variables declaration//GEN-END:variables
 }
